@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+        <main class="container mx-auto flex flex-col p-2">
+      <div>
+        <button id="back-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M5 12l14 0" />
+            <path d="M5 12l4 4" />
+            <path d="M5 12l4 -4" />
+          </svg>
+        </button>
+      </div>
+      <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+      <h1 class="mb-4 text-center text-3xl font-bold md:mb-9">Register</h1>
+      <section>
+        <form
+          id="registration-form"
+          class="flex flex-col justify-center gap-8 p-4 md:gap-16 md:p-9"
+        >
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label
+              for="registration-username"
+              class="flex flex-row items-center gap-2"
+              >Username<svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-asterisk"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12l8 -4.5" />
+                <path d="M12 12v9" />
+                <path d="M12 12l-8 -4.5" />
+                <path d="M12 12l8 4.5" />
+                <path d="M12 3v9" />
+                <path d="M12 12l-8 4.5" />
+              </svg>
+            </label>
+            <input
+              id="registration-username"
+              type="text"
+              name="name"
+              title="Only letters, numbers and underscores are allowed."
+              required
+              maxlength="30"
+              required
+              class="input mb-4"
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label
+              for="registration-email"
+              class="flex flex-row items-center gap-2"
+            >
+              Email
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-asterisk"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12l8 -4.5" />
+                <path d="M12 12v9" />
+                <path d="M12 12l-8 -4.5" />
+                <path d="M12 12l8 4.5" />
+                <path d="M12 3v9" />
+                <path d="M12 12l-8 4.5" /></svg></label>
+            <input
+              class="input mb-4"
+              id="registration-email"
+              type="email"
+              name="email"
+              title="Please only use a 'stud@noroff.no' format"
+              required
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label
+              for="registration-password"
+              class="flex flex-row items-center gap-2"
+            >
+              Password
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-asterisk"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12l8 -4.5" />
+                <path d="M12 12v9" />
+                <path d="M12 12l-8 -4.5" />
+                <path d="M12 12l8 4.5" />
+                <path d="M12 3v9" />
+                <path d="M12 12l-8 4.5" /></svg></label>
+            <input
+              class="input mb-4"
+              id="registration-password"
+              type="password"
+              name="password"
+              title="Create a password with a minimum of 8 characters"
+              required
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label
+              for="registration-password-repeat"
+              class="flex flex-row items-center gap-2"
+            >
+              Repeat password
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-asterisk"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12l8 -4.5" />
+                <path d="M12 12v9" />
+                <path d="M12 12l-8 -4.5" />
+                <path d="M12 12l8 4.5" />
+                <path d="M12 3v9" />
+                <path d="M12 12l-8 4.5" /></svg></label>
+            <input
+              class="input mb-4"
+              id="registration-password-repeat"
+              type="password"
+              name="confirmPassword"
+              title="Please match the previously entered password"
+              required
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label for="bio">Bio</label>
+            <input class="input mb-4" type="text" name="bio" id="bio" />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label for="register-image-url"> Add an avatar image </label>
+            <input
+              type="url"
+              class="input mb-4"
+              id="register-image-url"
+              name="avatarUrl"
+            />
+            <p class="mb-4">
+              Right click an image and select "copy image address" for proper
+              format.
+            </p>
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label for="register-image-alt"> Describe your avatar image </label>
+            <input
+              type="text"
+              class="input mb-4"
+              id="register-image-alt"
+              name="avatarAlt"
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label for="banner"> Add a banner</label>
+            <input
+              class="input mb-4"
+              type="text"
+              id="banner"
+              name="bannerUrl"
+            />
+          </div>
+          <div class="flex w-full flex-col gap-2 self-center md:w-96">
+            <label for="banner-alt"> Banner description</label>
+            <input
+              type="text"
+              class="input mb-4"
+              id="banner-alt"
+              name="bannerAlt"
+            />
+          </div>
+          <p class="mb-4 self-center-safe">
+            Already have an account? Login
+            <a href="/login.html" class="font-bold">here</a>
+          </p>
+          <button type="submit" class="btn" id="submit-button">Sign up</button>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/register.ts"></script>
+</body>
+</html>
