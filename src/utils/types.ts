@@ -1,11 +1,21 @@
 export type UserProfile = {
   name: string;
   email: string;
-  bio?: string;
+  bio?: string | null;
   avatar?: Media;
   banner?: Media;
 }
 
+export const GUEST_PROFILE: UserProfile = {
+  name: 'Guest',
+  email: "",
+  avatar: {
+    url: "https://www.citypng.com/public/uploads/preview/download-profile-user-round-orange-icon-symbol-png-701751695033488zipyc2pvo5.png"
+  ,alt: "Guest user avatar image"}
+  ,banner: {
+    url: "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+  ,alt: "Blue banner image"}
+}
 export type Media = {
   url: string;
   alt: string;
@@ -37,7 +47,7 @@ export type RegisterResponse = {
 }
 
 export type SellerProfile = UserProfile & {
-  wins: string[];
+  wins?: string[];
 }
 
 export type Bid = {
@@ -53,7 +63,7 @@ export type ListingCount = {
 export type Listing = {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   tags: string[];
   media: Media[];
   created: string;
@@ -77,4 +87,9 @@ export type ListingMeta = {
 export type ListingResponse = {
   data: Listing[];
   meta: ListingMeta;
+}
+
+export type OneListingResponse = {
+  data: Listing;
+  meta: Record<string, never>;
 }
