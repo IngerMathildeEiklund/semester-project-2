@@ -9,8 +9,15 @@
   <body>
     <main class="container">
     <h1 class="text-xl font-bold">HELLOOOOO </h1>
-    <section class="grid grid-cols-1">
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="listings">
     </section>
+    <div class="flex flex-row" id="pagination">
+      <button id="prev-btn"></button>
+      <button class="page-btn"></button>
+      <button class="page-btn"></button>
+      <button class="page-btn"></button>
+      <button id="next-btn"></button>
+    </div>
   </main>
     <script type="module" src="/src/index.ts"></script>
   </body>

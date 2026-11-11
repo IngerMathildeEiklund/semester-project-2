@@ -10,11 +10,11 @@ export const GUEST_PROFILE: UserProfile = {
   name: 'Guest',
   email: "",
   avatar: {
-    url: "https://www.citypng.com/public/uploads/preview/download-profile-user-round-orange-icon-symbol-png-701751695033488zipyc2pvo5.png"
+    url: "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=500&w=1500"
   ,alt: "Guest user avatar image"}
   ,banner: {
-    url: "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
-  ,alt: "Blue banner image"}
+    url: "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=500&w=1500"
+  ,alt: "Guest user banner image"}
 }
 export type Media = {
   url: string;
