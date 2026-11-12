@@ -2,9 +2,9 @@
 import { get } from "./api/apiClient";
 import { createCard } from "./components/card";
 
-import type{ Listing, ListingResponse, OneListingResponse } from "./utils/types";
+import type{ Listing, ListingResponse } from "./utils/types";
 
-const ALL_LISTINGS_URL = "/auction/listings";
+export const ALL_LISTINGS_URL = "/auction/listings";
 
 
 export async function fetchAllListings(): Promise<ListingResponse> {
@@ -16,13 +16,7 @@ export async function fetchAllListings(): Promise<ListingResponse> {
     return response;
 }
 
-export async function fetchOneListing(listingId: string): Promise<Listing | null> {
-    const response = await get<OneListingResponse>(`${ALL_LISTINGS_URL}/${listingId}?_seller=true&_bids=true`);
-    if (!response?.data) {
-        throw new Error("Could not fetch one listing")
-    }
-    return response.data;
-}
+
 const listingsContainer = document.getElementById('listings');  
 
 async function getAllListings(): Promise <void> {
@@ -42,16 +36,12 @@ if (listings.length === 0) {
 }
 listings.forEach((listing) => {
     const listingElement = createCard(listing);
+    listingElement.addEventListener('click', () => {
+        window.location.href = `/pages/listing.html?id=${listing.id}`;
+    })
     container.appendChild(listingElement)
 })
 }
 
 getAllListings()
 
-
-
-
-/* 
-const allPostsResponse = await getAllListings();
-console.log(allPostsResponse);
- */
