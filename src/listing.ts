@@ -25,7 +25,7 @@ function renderOneListing(listing: Listing | null, container: HTMLElement | null
     container.appendChild(errorMSG)
     return;
     }
-    const oneListingElement = createCard(listing, { detailed: true});
+    const oneListingElement = createCard(listing, { detailed: true, bids: listing.bids });
     container.appendChild(oneListingElement);
 }
 
