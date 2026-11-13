@@ -1,7 +1,7 @@
-import { loginUser } from './api/auth';
-import { getErrorMessage } from './error/apiError';
-import { toastNotification } from './messages/toastnotifications';
-import { storage } from './storage/storage';
+import { loginUser } from "./api/auth";
+import { getErrorMessage } from "./error/apiError";
+import { toastNotification } from "./messages/toastnotifications";
+import { storage } from "./storage/storage";
 
 export function checkRegister(): void {
   if (storage.load("successfulRegister")) {

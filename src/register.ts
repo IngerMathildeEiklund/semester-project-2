@@ -15,7 +15,7 @@ type RegisterFormElements = HTMLFormControlsCollection & {
   avatarAlt: HTMLInputElement;
   bannerUrl: HTMLInputElement;
   bannerAlt: HTMLInputElement;
-}
+};
 
 const registrationForm = document.getElementById(
   "registration-form",
@@ -114,4 +114,3 @@ registrationForm?.addEventListener("submit", async (event) => {
     if (submitBTN) submitBTN.disabled = false;
   }
 });
-

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   --background-error: #f8c6c6;
@@ -11,7 +11,7 @@
 
 @layer components {
   .btn {
-    @apply bg-cyan-200 inline-flex px-9 w-fit cursor-pointer items-center justify-center self-center rounded-full border-2 p-1;
+    @apply inline-flex w-fit cursor-pointer items-center justify-center self-center rounded-full border-2 bg-cyan-200 p-1 px-9;
   }
   .btn:disabled {
     @apply cursor-not-allowed;
@@ -56,5 +56,3 @@
   color: var(--text-warning);
   background-color: var(--background-warning);
 }
-
-
