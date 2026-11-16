@@ -3,6 +3,29 @@ import { getErrorMessage } from "./error/apiError";
 import { toastNotification } from "./messages/toastnotifications";
 import { storage } from "./storage/storage";
 
+const loginError = document.getElementById('login-error') as HTMLParagraphElement;
+const emailInput = document.getElementById('login-email-input') as HTMLInputElement;
+const passwordInput = document.getElementById('login-password-input') as HTMLInputElement;
+
+function showLoginError(message: string): void {
+loginError.textContent = message;
+loginError.hidden = false;
+
+for (const input of [emailInput, passwordInput]) {
+  input.setAttribute('aria-invalid', 'true');
+  input.setAttribute('aria-describedby', 'login-error');
+}
+}
+
+function clearLoginError(): void {
+loginError.textContent = '';
+loginError.hidden = true;
+
+for (const input of [emailInput, passwordInput]) {
+  input.removeAttribute('aria-invalid');
+  input.removeAttribute('aria-describedby');
+}
+}
 export function checkRegister(): void {
   if (storage.load("successfulRegister")) {
     storage.remove("successfulRegister");
@@ -22,6 +45,8 @@ const loginForm = document.getElementById(
 
 loginForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  clearLoginError();
+
   const elements = loginForm.elements as LoginFormElements;
 
   const credentials = {
@@ -33,6 +58,8 @@ loginForm?.addEventListener("submit", async (event) => {
     await loginUser(credentials);
     window.location.href = "/index.html";
   } catch (error) {
-    toastNotification(getErrorMessage(error), "error");
+    const message = getErrorMessage(error);
+    toastNotification(message, "error");
+    showLoginError(message);
   }
 });

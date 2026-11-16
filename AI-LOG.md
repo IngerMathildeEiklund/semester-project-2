@@ -89,9 +89,16 @@ Changes made: Changed some elements to have the correct html tag, like rendering
 
 16.11.2026 12:01: 
 
-The bids are now rendered in an <ul>, but I believe it would be better to have them in a table instead, how can I do that? Are there any changes needed for accessibility?
+Prompt: The bids are now rendered in an <ul>, but I believe it would be better to have them in a table instead, how can I do that? Are there any changes needed for accessibility?
 
 Changes made: Changed the HTML to a table and the logic in the createBidList to be rendered in the table and not an <ul>. Also added a clause that if there are no bids create one row and a cell that contains the text "No bids yet".
+
+
+16.11.2026 13:50: 
+
+What is my login html and login.ts missing in terms of accessibility? 
+
+Changes made: added a physical 'x' button on the toast element, and using my existing getErrorMessage implemented a showLoginError that shows the message from that function on the correct field.
 
 
 
