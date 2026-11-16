@@ -2,8 +2,11 @@ import type { Listing, Bid, SellerProfile } from "../utils/types";
 import { transformDate } from "../utils/helpers";
 
 export const NO_IMAGE = "../src/assets/io-images-photo-1103595_640.png";
+const CURRENCY = '$';
 
-
+function formatCurrency(amount: number | string): string {
+  return `${CURRENCY}${amount}`;
+}
 type CardOptions = {
   detailed?: boolean;
   bids?: Bid[];
@@ -35,7 +38,6 @@ function createImageGallery(media: MediaItem[], title: string): HTMLElement {
         img.src = images[index].url ?? NO_IMAGE;
         img.alt = images[index].alt ?? `${title}, image ${index + 1} of ${images.length}`;
         current.textContent = `${index + 1} / ${images.length}`;
-        
     }
 
     const createGalleryButton = (label: string, step: number) => {
@@ -63,14 +65,60 @@ function createImageGallery(media: MediaItem[], title: string): HTMLElement {
 }
 
 function getPriceText(bidList: Bid[] | undefined, hasEnded: boolean): string {
+  
     if (!bidList) return '';
     if (bidList.length === 0) return hasEnded ? "No bids were made" : "No bids yet.";
     
-    const highestBid =
-        bidList && bidList.length > 0
-        ? Math.max(...bidList.map((bid) => Number(bid.amount)))
-        : null;
-    return hasEnded ? `Sold for ${highestBid}` : `Current price: ${highestBid}`;
+    const highestBid = Math.max(...bidList.map((bid) => Number(bid.amount))); 
+    return hasEnded ? `Sold for ${formatCurrency(highestBid)}` : `Current price: ${formatCurrency(highestBid)}`;
+}
+
+
+export function createBidList(bids: Bid[], list: HTMLTableSectionElement): void {
+  if (bids.length === 0) {
+  const row = document.createElement('tr');
+  const cell = document.createElement('td');
+  cell.colSpan = 2;
+  cell.textContent = 'No bids yet';
+  row.append(cell);
+  list.replaceChildren(row);
+  return;
+}
+  const rows = [...bids]
+  .sort((a, b) => Number(b.amount) - Number (a.amount))
+  .map((bid) => {
+        const row = document.createElement('tr');
+        row.classList.add('border-b', 'border-gray-300', 'mb-8');
+        const bidder = document.createElement('td');
+        bidder.classList.add('py-2');
+        
+        const time = document.createElement('td');
+        time.textContent = `${transformDate(bid.created)}`;
+        bidder.textContent = bid.bidder.name;
+        const amount = document.createElement('td');
+        amount.classList.add('py-2');
+        amount.textContent = formatCurrency(bid.amount);
+
+        row.append(bidder, amount, time);
+        return row;
+  });
+
+  list.replaceChildren(...rows);
+}
+
+export function createSellerInfo(seller: SellerProfile): HTMLElement {
+  const sellerWrapper = document.createElement('div');
+  sellerWrapper.classList.add('flex', 'flex-row', 'items-center');
+
+  const sellerAvatar = document.createElement('img');
+  sellerAvatar.classList.add('w-10', 'h-10', 'rounded-full', 'object-cover');
+  sellerAvatar.src = seller.avatar?.url ?? NO_IMAGE;
+  sellerAvatar.alt = '';
+
+  const sellerName = document.createElement('p');
+  sellerName.textContent = seller.name;
+  sellerWrapper.append(sellerAvatar, sellerName);
+  return sellerWrapper;
 }
 
 export function createCard(
@@ -83,6 +131,7 @@ const now = new Date();
   const hasEnded = now > ends;
 
   const card = document.createElement("article");
+  card.setAttribute('aria-labelledby', `listing-title-${listing.id}`);
   card.className = "listing-card";
   card.dataset.id = listing.id;
   card.classList.add('relative',"flex", "flex-col", "gap-4", "p-2",);
@@ -106,39 +155,43 @@ const now = new Date();
 
   const titleLink = document.createElement('a');
   titleLink.href = `/pages/listing.html?id=${listing.id}`;
+  title.id = `listing-title-${listing.id}`;
   titleLink.textContent = listing.title;
-  titleLink.classList.add('after:absolute', 'after:inset-0');
   
   title.append(titleLink);
-
+  const desc = document.createElement("p");
+  desc.classList.add('line-clamp-1', 'break-words')
+  
   const price = document.createElement("p");
   price.textContent = getPriceText(bidList, hasEnded);
-
+desc.textContent = listing.description ?? "";
   const bids = document.createElement("p");
   bids.textContent = `${listing._count.bids} ${listing._count.bids === 1 ? "bid" : "bids"}`;
   
-  const endsAt = document.createElement("p");
-  endsAt.classList.add("text-green-800");
-    endsAt.innerHTML = hasEnded ? `<div class="flex flex-row gap-2 text-red-800 items-center"> <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock-x">
+  const endsAt = document.createElement("div");
+  endsAt.classList.add('flex', 'flex-row', 'gap-2', 'items-center');
+  endsAt.classList.add(hasEnded ? 'text-red-800': 'text-green-800');
+
+    endsAt.innerHTML = hasEnded ? `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock-x">
 	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<path d="M20.926 13.15a9 9 0 1 0 -7.835 7.784" />
 	<path d="M12 7v5l2 2" />
 	<path d="M22 22l-5 -5" />
 	<path d="M17 22l5 -5" />
-</svg> <span> Ended </span> </div>` : `<div class="flex flex-row gap-2 items-center"> <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock">
+</svg> <span> Listing has ended </span>` : ` <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clock">
 	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
 	<path d="M12 7v5l3 3" />
-</svg> <time datetime="${listing.endsAt}">${transformDate(listing.endsAt)} </time> </div>`;
+</svg> <span> Ends at <span> <time datetime="${listing.endsAt}">${transformDate(listing.endsAt)} </time>`;
 
 const bidEndsAtWrapper = document.createElement("div");
 bidEndsAtWrapper.classList.add("justify-between", "mt-auto","flex", "flex-row", "gap-2" );  
 bidEndsAtWrapper.append(bids, endsAt);
-card.append(title, price, bidEndsAtWrapper);
+card.append(title, desc, price, bidEndsAtWrapper);
 
   
     if (detailed) {
-      const tagContainer = document.createElement("div");
+    const tagContainer = document.createElement("div");
     tagContainer.classList.add("flex", "flex-row", "gap-2");
       
     listing.tags.forEach((tag) => {
@@ -150,12 +203,11 @@ card.append(title, price, bidEndsAtWrapper);
       "py-1",
       "w-fit",
       "border-2",
-      "border-b-fuchsia-600",
+      "border-fuchsia-600",
     );
-    
     tagContainer.appendChild(tagElement);
   });  
-    const desc = document.createElement("p");
+  
     const created = document.createElement("time");
     const updated = document.createElement("time");
 
@@ -171,45 +223,23 @@ card.append(title, price, bidEndsAtWrapper);
     const updatedText = document.createElement('p');
     updatedText.append('Updated: ', updated);
     
-    desc.textContent = listing.description ?? "";
-
-    card.append(desc, createdText)
+    const dateTexts = [createdText];
 
     if (listing.created !== listing.updated) {
-        card.append(updatedText);
+        dateTexts.push(updatedText);
     }
 
     card.append(tagContainer);
 
-    if (bidList) {
-        const bidContainer = document.createElement('section');
-        const bidTitle = document.createElement('h2');
-        bidTitle.textContent = 'Bids:'
-        bidContainer.append(bidTitle);
-
-      const list = document.createElement("ul");
-      [...bidList].sort((a, b) => Number(b.amount) - Number (a.amount)).forEach((bid) => {
-        const item = document.createElement('li');
-        item.textContent = `${bid.amount} by ${bid.bidder.name}`;
-        list.append(item);
-      })
-      bidContainer.append(list);
-      card.append(bidContainer);
-        
+    const bidsBody = document.getElementById('bids-body') as HTMLTableSectionElement | null;
+    
+    if (bidList && bidsBody) {
+      createBidList(bidList, bidsBody);
     }
-    if (showSeller && listing.seller) {
-        const sellerWrapper = document.createElement("div");
-        const sellerAvatar = document.createElement("img");
-        const seller = document.createElement("p");
 
-        sellerWrapper.classList.add('flex', 'flex-row', 'items-center');
-        sellerAvatar.classList.add('w-10', 'h-10', 'rounded-full', 'object-cover');
-  
-        sellerAvatar.src = listing.seller.avatar?.url ?? NO_IMAGE;
-        sellerAvatar.alt = "";
-        seller.textContent = listing.seller.name;
-        sellerWrapper.append(sellerAvatar, seller); 
-        card.prepend(sellerWrapper);
+    card.prepend(...dateTexts);
+    if (showSeller && listing.seller) {
+      card.prepend(createSellerInfo(listing.seller));
     }
   }
   return card;

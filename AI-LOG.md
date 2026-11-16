@@ -1,3 +1,5 @@
+# CLAUDE AI LOG
+
 12.11.2026 12:26:
 
 Prompt: There are several broken images from the API, how can I replace them with my placeholder image?
@@ -70,4 +72,30 @@ Changes made: Added a createImageGallery function that takes in a media paramete
 Prompt: I want the price (highestBid) to be visible from the homepage too, so the price displayed will be whatever the current bid is, or if the auction is over, the last highest bid will be what the item sold for. 
 
 Changes made: Moved the highest bid calculation into its own function. Also the fetch link was missing an underscore. 
+
+16.11.2026 10:55:
+
+Prompt: The order of the different properties of the listing is not in the order I want them, how can I reorder these elements to get the order I want? One for the detailed card and one for the not detailed card.
+
+Changes made: Changed the order some elements are appended. 
+
+
+16.11.2026 12:34:
+
+Prompt: What is my card function missing in terms of accessibility? 
+
+Changes made: Changed some elements to have the correct html tag, like rendering the bids as a list and just just <p>.
+
+
+16.11.2026 12:01: 
+
+The bids are now rendered in an <ul>, but I believe it would be better to have them in a table instead, how can I do that? Are there any changes needed for accessibility?
+
+Changes made: Changed the HTML to a table and the logic in the createBidList to be rendered in the table and not an <ul>. Also added a clause that if there are no bids create one row and a cell that contains the text "No bids yet".
+
+
+
+
+
+
 
