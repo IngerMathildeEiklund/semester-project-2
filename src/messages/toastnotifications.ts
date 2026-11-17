@@ -25,4 +25,12 @@ export function toastNotification(message: string, type: MessageType): void {
     clearTimeout(timeoutID);
     toastElement.remove();
   });
+
+  toastElement.addEventListener('mouseenter', () =>{
+    clearTimeout(timeoutID);
+  })
+
+  toastElement.addEventListener('focusin', () => {
+    clearTimeout(timeoutID);
+  })
 }

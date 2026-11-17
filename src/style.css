@@ -56,3 +56,9 @@
   color: var(--text-warning);
   background-color: var(--background-warning);
 }
+
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: progress;
+  pointer-events: none;
+}

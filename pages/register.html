@@ -3,18 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <main class="container mx-auto flex flex-col p-2">
-      <div>
-      </div>
-      <div id="toast-container"></div>
+      <div id="toast-container" role="status" aria-live="polite"></div>
       <h1 class="mb-4 text-center text-3xl font-bold md:mb-9">Register</h1>
       <section>
         <form
-          id="registration-form"
+          id="registration-form" novalidate
           class="flex flex-col justify-center gap-8 p-4 md:gap-16 md:p-9"
         >
           <div class="flex w-full flex-col gap-2 self-center md:w-96">
@@ -45,10 +43,9 @@
             <p id="registration-username-hint" class="text-sm" >Only letters, numbers and underscores are allowed</p>
             <input
               id="registration-username"
-              aria-describedby="registration-username-hint"
+              aria-describedby="registration-username-hint registration-username-error"
               type="text"
               name="name"
-              title="Only letters, numbers and underscores are allowed."
               required
               maxlength="30"
               class="input mb-4"
@@ -84,11 +81,10 @@
                 <p id="registration-email-hint" class="text-sm">Valid email format '@stud.noroff.no'</p>
             <input
               class="input mb-4"
-              aria-describedby="registration-email-hint"
+              aria-describedby="registration-email-hint registration-email-error"
               id="registration-email"
               type="email"
               name="email"
-              title="Please only use a 'stud@noroff.no' format"
               required
             /> 
             
@@ -122,11 +118,10 @@
                 <p id="registration-password-hint" class="text-sm"> Minimum 8 characters </p>
             <input
               class="input mb-4"
-              aria-describedby="registration-password-hint"
+              aria-describedby="registration-password-hint registration-password-error"
               id="registration-password"
               type="password"
               name="password"
-              title="Create a password with a minimum of 8 characters"
               required
             />
             
@@ -162,10 +157,9 @@
             <input
               class="input mb-4"
               id="registration-password-repeat"
-              aria-describedby="registration-password-repeat-hint"
+              aria-describedby="registration-password-repeat-hint registration-password-repeat-error"
               type="password"
               name="confirmPassword"
-              title="Please match the previously entered password"
               required
             />
             
@@ -174,23 +168,24 @@
           <div class="flex w-full flex-col gap-2 self-center md:w-96">
             <label for="bio">Bio</label>
             <p id="registration-bio-hint" class="text-sm"> Bio character limit: 160</p>
-            <input class="input mb-4" type="text" name="bio" id="bio" aria-describedby="registration-bio-hint"/>
+            <input class="input mb-4" maxlength="160" type="text" name="bio" id="bio" aria-describedby="registration-bio-hint registration-bio-error"/>
             
             <p id="registration-bio-error" class="text-red-800"></p>
           </div>
           <div class="flex w-full flex-col gap-2 self-center md:w-96">
             <label for="register-image-url"> Add an avatar image </label>            
-            <p class="text-sm">
+            <p id="registration-image-url-hint" class="text-sm">
               Right click an image and select "copy image address" for proper
               format.
             </p>
             <input
               type="url"
+              aria-describedby="registration-image-url-hint registration-image-url-error" 
               class="input mb-4"
               id="register-image-url"
               name="avatarUrl"
             />
-            
+            <p id="registration-image-url-error" class="text-red-800"></p>
 
           </div>
           <div class="flex w-full flex-col gap-2 self-center md:w-96">
@@ -198,20 +193,20 @@
             <p id="registration-alt-hint" class="text-sm">Max 120 characters</p>
             <input
               type="text"
-              aria-describedby="registration-alt-hint"
+              aria-describedby="registration-alt-hint registration-image-alt-error"
               class="input mb-4"
               id="register-image-alt"
               name="avatarAlt"
             />
-            <p id="registration-alt-error" class="text-red-800"></p>
+            <p id="registration-image-alt-error" class="text-red-800"></p>
           </div>
           <div class="flex w-full flex-col gap-2 self-center md:w-96">
             <label for="banner"> Add a banner</label>
             <p id="registration-banner-hint"> Must be accessible and valid url</p>
             <input
               class="input mb-4"
-              aria-describedby="registration-banner-hint"
-              type="text"
+              aria-describedby="registration-banner-hint registration-banner-error"
+              type="url"
               id="banner"
               name="bannerUrl"
             />
@@ -222,7 +217,7 @@
             <p id="registration-banner-alt-hint" class="text-sm"> Max characters: 120</p>
             <input
               type="text"
-              aria-describedby="registration-banner-alt-hint"
+              aria-describedby="registration-banner-alt-hint registration-banner-alt-error"
               class="input mb-4"
               id="banner-alt"
               name="bannerAlt"
@@ -233,6 +228,7 @@
             Already have an account? Login
             <a href="/login.html" class="font-bold">here</a>
           </p>
+          <p id="registration-status" role="status" aria-live="polite" class="text-sm"></p>
           <button type="submit" class="btn" id="submit-button">Sign up</button>
         </form>
       </section>
