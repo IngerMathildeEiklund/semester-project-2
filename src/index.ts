@@ -20,6 +20,7 @@ const listingsContainer = document.getElementById('listings');
 
 async function getAllListings(): Promise <void> {
     const response = await fetchAllListings();
+    console.log(response);
     renderListings(response.data, listingsContainer);
 }
 
@@ -34,7 +35,6 @@ if (listings.length === 0) {
     container.appendChild(item)
 }
 listings.forEach((listing) => {
-    console.log(listings[0])
     const item = document.createElement('li');
     item.classList.add('cursor-pointer');
     item.append(createCard(listing, { detailed: false, bids: listing.bids}));
