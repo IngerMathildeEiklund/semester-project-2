@@ -10,17 +10,41 @@
   <body>
     <main class="container mx-auto flex flex-col p-2">
       <h1 class="text-xl font-bold">HELLOOOOO</h1>
+      
+      <div> 
+      <label for="searchbar"> Search listings</label>
+      <input id="searchbar" type="search" class="border-red-600 border-4">
+      </div>
+
+      <div>
+        <label for="tag-filter">Search for a tag</label>
+        <input id="tag-filter" list="tag-options" placeholder="All tags"/>
+        <datalist id="tag-options"></datalist>
+      </div>
+      
+      <div> 
+      <label for="status-filter"> Status </label>
+      <select id="status-filter" name="filter">
+        <option value="">All</option>
+        <option value="true">Active</option>
+        <option value="false">Ended</option>
+      </select>
+    </div>
       <ul
         id="listings"
         class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
       ></ul>
       <div class="flex flex-row items-center justify-center gap-4" id="pagination">
+        
         <button id="prev-btn"> Previous </button>
         <button id="page-btn-1" class="page-btn">1</button>
         <button id="page-btn-2" class="page-btn">2</button>
         <button id="page-btn-3" class="page-btn">3</button>
         <button id="next-btn"> Next</button>
       </div>
+      <div class=" flex items-center justify-center mt-4"> 
+      <p id="page-info"></p>
+    </div>
     </main>
     <script type="module" src="/src/index.ts"></script>
   </body>

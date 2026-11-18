@@ -76,7 +76,7 @@ export type Listing = {
 }
 
 export type ListingMeta = {
-  isFirstpage: boolean;
+  isFirstPage: boolean;
   isLastPage: boolean;
   currentPage: number;
   previousPage: number | null;
@@ -93,4 +93,14 @@ export type ListingResponse = {
 export type OneListingResponse = {
   data: Listing;
   meta: Record<string, never>;
+}
+
+export type ListingQuery = {
+  q?: string;
+  tag?: string;
+  active?: boolean;
+  page?: number;
+  limit?: number;
+  includeSeller?: boolean;
+  includeBids?: boolean;
 }

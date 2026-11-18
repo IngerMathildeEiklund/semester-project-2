@@ -96,13 +96,23 @@ Changes made: Changed the HTML to a table and the logic in the createBidList to 
 
 16.11.2026 13:50: 
 
-What is my login html and login.ts missing in terms of accessibility? 
+Prompt: What is my login html and login.ts missing in terms of accessibility? 
 
 Changes made: added a physical 'x' button on the toast element, and using my existing getErrorMessage implemented a showLoginError that shows the message from that function on the correct field.
 
 
+17.11.2026 12:52
+
+Prompt: What is my register.ts missing in terms of accessibility? 
+
+Changes made: Added  showFieldError() and clearFieldError() to show and clear error messages, and isValidImage() to validate correct image formats. Replaced my toast notification with the error <p> showing up underneath the field that needs fixing and with a descriptive message on what to correct. Also added more checks for a more failsafe registration. Added the awaits for the isValidImage in a Promise.all to not have the two promises go one after the other to shorten wait time. 
 
 
+18.11.2026 13:12
+
+Prompt: I've started working on pagination but I also need filtering and searching in place before I do. Am I on the right track?
+
+Changes made: I was not on the right track, I started with creating two separate functions, one for searching and one for filtering. The correct process is to add all of that into the function that fetches the posts. Changed my fetchAllListings function to take in all the parameters (query, tag, active, page, limit, including seller and including bids) so that it can be used for both searching and filtering by tags/active or not active. Added the functions updateTags(), updatePagination() and a debouncer on searchbar and tag search. I did not have the right logic on the 3 pagination buttons between previous and next so that was also added. 
 
 
 
