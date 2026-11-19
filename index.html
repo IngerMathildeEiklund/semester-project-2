@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <main class="container mx-auto flex flex-col p-2">
-      <h1 class="text-xl font-bold">HELLOOOOO</h1>
-      
+    <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2 focus:underline" href="#main"> Skip to content</a>
+    <main id="main" tabindex="-1" class="container mx-auto flex flex-col p-2">
+      <h1 id="listings-header">Listings</h1>
+      <form class="flex flex-row justify-between" role="search"> 
       <div> 
       <label for="searchbar"> Search listings</label>
       <input id="searchbar" type="search" class="border-red-600 border-4">
+
       </div>
 
       <div>
@@ -30,21 +32,26 @@
         <option value="false">Ended</option>
       </select>
     </div>
+  </form>
       <ul
-        id="listings"
-        class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
-      ></ul>
-      <div class="flex flex-row items-center justify-center gap-4" id="pagination">
-        
-        <button id="prev-btn"> Previous </button>
-        <button id="page-btn-1" class="page-btn">1</button>
-        <button id="page-btn-2" class="page-btn">2</button>
-        <button id="page-btn-3" class="page-btn">3</button>
-        <button id="next-btn"> Next</button>
-      </div>
+        id="listings" aria-labelledby="listings-header"
+        class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3"
+      >
+    </ul>      
+      <p id="error-msg" role="status"></p>
+
       <div class=" flex items-center justify-center mt-4"> 
-      <p id="page-info"></p>
+      <p id="page-info" aria-live="polite"></p>
     </div>
+      <nav class="flex flex-row items-center justify-center gap-4" id="pagination" aria-label="Pagination">
+        
+        <button id="prev-btn" class="btn"> Previous </button>
+        <button id="page-btn-1" class="page-btn btn">1</button>
+        <button id="page-btn-2" class="page-btn btn">2</button>
+        <button id="page-btn-3" class="page-btn btn">3</button>
+        <button id="next-btn" class="btn"> Next</button>
+      </nav>
+
     </main>
     <script type="module" src="/src/index.ts"></script>
   </body>

@@ -15,8 +15,10 @@ const pageInfo = document.getElementById('page-info') as HTMLParagraphElement;
 const tagOptions = document.getElementById('tag-options') as HTMLDataListElement;
 const tagInput = document.getElementById('tag-filter') as HTMLInputElement;
 const statusSelect = document.getElementById('status-filter') as HTMLSelectElement;
+const errorMSG = document.getElementById('error-msg') as HTMLParagraphElement;
 
 let tagTimer: number | undefined;
+let searchTimer: number | undefined;
 
 const state = {
     q: "",
@@ -27,8 +29,11 @@ const state = {
 
 const knownTags = new Set<string>();
 
-export async function fetchAllListings({q, tag, active, page = 1, limit = 100, includeSeller = true, includeBids = true,}: ListingQuery = {}): Promise<ListingResponse> {
 
+
+export async function fetchAllListings({q, tag, active, page = 1, limit = 30, includeSeller = true, includeBids = true,}: ListingQuery = {}): Promise<ListingResponse> {
+
+    
     const params = new URLSearchParams({
         page: String(page),
         limit: String(limit),
@@ -51,7 +56,11 @@ export async function fetchAllListings({q, tag, active, page = 1, limit = 100, i
 
 const listingsContainer = document.getElementById('listings');  
 
-async function getAllListings(): Promise <void> {
+let latestRequest = 0;
+
+async function getAllListings(): Promise<boolean> {
+
+const requestId = ++latestRequest;
 try {
     const response = await fetchAllListings({
         q: state.q || undefined,
@@ -60,21 +69,25 @@ try {
         page: state.page 
         
     });
+    if (requestId !== latestRequest) return false;
 
     renderListings(response.data, listingsContainer);
     updateTags(response.data);
     updatePagination(response.meta);
+    errorMSG.textContent = '';
+    return true;
+
 }catch {
-    const errorMSG = document.createElement('p');
-    errorMSG.textContent = 'Could not get listings. Please try again later.';
-    listingsContainer?.appendChild(errorMSG);
+    if (requestId !== latestRequest) return false;
+    errorMSG.textContent = `Could not get listings, please try again later`;
+    return false;
 }
 }
+
 function applyFilter(): void {
     state.page = 1;
     getAllListings();
 }
-
 
 function renderListings(listings: Listing[], container: HTMLElement | null = listingsContainer): void   {
 
@@ -83,16 +96,12 @@ container.replaceChildren();
 
 if (listings.length === 0) {
     const item = document.createElement('li');
-    item.textContent = ' Could not find any listings';
-    container.appendChild(item)
+    item.textContent = 'Could not find any listings';
+    container.appendChild(item);
 }
 listings.forEach((listing) => {
     const item = document.createElement('li');
-    item.classList.add('cursor-pointer');
     item.append(createCard(listing, { detailed: false, bids: listing.bids}));
-    item.addEventListener('click', () => {
-        window.location.href = `/pages/listing.html?id=${listing.id}`;
-    })
     container.append(item);
 })
 }
@@ -108,12 +117,21 @@ function updateTags(listings: Listing[]): void {
 );
 }
 
+async function changePage(newPage: number): Promise<void> {
+    state.page = newPage;
+    const ok = await getAllListings();
+    if (ok) {
+        document.getElementById('listings-header')?.scrollIntoView( { block: 'start' });
+    }
+}
+ 
 const size = 3;
 
 function updatePagination(meta: ListingMeta): void {
-    prevBTN.disabled = meta.isFirstPage;
-    nextBTN.disabled = meta.isLastPage;
-    pageInfo.textContent = `Page ${meta.currentPage} of ${meta.pageCount || 1}`;
+    prevBTN.setAttribute('aria-disabled', String(meta.isFirstPage));
+    nextBTN.setAttribute('aria-disabled', String(meta.isLastPage));
+    const count = meta.totalCount != null ? `, ${meta.totalCount} results` : '';
+    pageInfo.textContent = `Page ${meta.currentPage} of ${meta.pageCount || 1}${count}`;
 
     const paginationSize = Math.min(size, meta.pageCount);
     let start = meta.currentPage -  Math.floor(paginationSize / 2);
@@ -128,13 +146,23 @@ function updatePagination(meta: ListingMeta): void {
 
         button.textContent = String(pageNumber);
         button.dataset.page = String(pageNumber);
-        button.classList.toggle('font-bold', pageNumber === meta.currentPage);
+
+        const isCurrent = pageNumber === meta.currentPage;
+        button.classList.toggle('font-bold', isCurrent);
+        if (isCurrent) {
+            button.setAttribute('aria-current', 'page');
+
+        }else{
+            button.removeAttribute('aria-current');
+        }
+        button.setAttribute('aria-label', `Page ${pageNumber}`);
+        
     })
 }
 if (searchBar) {
 searchBar?.addEventListener('input', () => {
-    clearTimeout(tagTimer);
-    tagTimer = window.setTimeout(() => {
+    clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(() => {
         state.q = searchBar.value.trim();
         applyFilter();
     }, 300);
@@ -161,28 +189,25 @@ if (statusSelect) {
 
 if (prevBTN) {
 prevBTN.addEventListener('click', () => {
+    if (prevBTN.getAttribute('aria-disabled') === 'true') return;
     if (state.page > 1) {
-        state.page--;
-        getAllListings();
+        changePage(state.page - 1);
     }
 });
 }
 
 if (nextBTN) {
     nextBTN.addEventListener('click', () => {
-    if (!nextBTN) return;
-    state.page++;
-    getAllListings();
+    if (nextBTN.getAttribute('aria-disabled') === 'true') return;
+    changePage(state.page + 1);
 })
 }
 if (pageBTNs) {
     pageBTNs.forEach((button) => {
     button?.addEventListener('click', () => {
-        state.page = Number(button.dataset.page);
-        getAllListings();
+       changePage(Number(button.dataset.page)) ;
     })
 })
 }
-
 
 getAllListings()

@@ -45,7 +45,7 @@ function createImageGallery(media: MediaItem[], title: string): HTMLElement {
         button.type = 'button';
         button.textContent = label;
         button.setAttribute('aria-label', step < 0 ? 'Previous image' : 'Next image');
-        button.classList.add('cursor-pointer','absolute', 'top-1/2', '-translate-y-1/2', 'bg-black/50', 'text-white', 'rounded-full', 'px-3', 'py-1', step < 0 ? "left-2" : 'right-2',)
+        button.classList.add('z-10','cursor-pointer','absolute', 'top-1/2', '-translate-y-1/2', 'bg-black/50', 'text-white', 'rounded-full', 'px-3', 'py-1', step < 0 ? "left-2" : 'right-2',)
         
         button.addEventListener('click', (event) => {
             event.preventDefault();
@@ -134,7 +134,7 @@ const now = new Date();
   card.setAttribute('aria-labelledby', `listing-title-${listing.id}`);
   card.className = "listing-card";
   card.dataset.id = listing.id;
-  card.classList.add('relative',"flex", "flex-col", "gap-4", "p-2",);
+  card.classList.add('cursor-pointer','relative',"flex", "flex-col", "gap-4", "p-2",);
 
   const image = listing.media[0];
   const cardImage = document.createElement("img");
@@ -150,13 +150,15 @@ const now = new Date();
     card.append(detailed ? createImageGallery(listing.media, listing.title): cardImage);
 
 
-  const title = document.createElement("h3");
+  const title = document.createElement("h2");
+  title.id = `listing-title-${listing.id}`;
   title.classList.add("line-clamp-2", "break-words");
 
   const titleLink = document.createElement('a');
   titleLink.href = `/pages/listing.html?id=${listing.id}`;
-  title.id = `listing-title-${listing.id}`;
+  
   titleLink.textContent = listing.title;
+  titleLink.classList.add('after:absolute', 'after:inset-0');
   
   title.append(titleLink);
   const desc = document.createElement("p");
@@ -164,7 +166,7 @@ const now = new Date();
   
   const price = document.createElement("p");
   price.textContent = getPriceText(bidList, hasEnded);
-desc.textContent = listing.description ?? "";
+  desc.textContent = listing.description ?? "";
   const bids = document.createElement("p");
   bids.textContent = `${listing._count.bids} ${listing._count.bids === 1 ? "bid" : "bids"}`;
   
@@ -182,7 +184,7 @@ desc.textContent = listing.description ?? "";
 	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
 	<path d="M12 7v5l3 3" />
-</svg> <span> Ends at <span> <time datetime="${listing.endsAt}">${transformDate(listing.endsAt)} </time>`;
+</svg> <span> Ends <time datetime="${listing.endsAt}">${transformDate(listing.endsAt)} </time> </span>`;
 
 const bidEndsAtWrapper = document.createElement("div");
 bidEndsAtWrapper.classList.add("justify-between", "mt-auto","flex", "flex-row", "gap-2" );  
@@ -197,7 +199,7 @@ card.append(title, desc, price, bidEndsAtWrapper);
     listing.tags.forEach((tag) => {
     const tagElement = document.createElement("span");
     tagElement.textContent = `${tag}`;
-    tagElement.classList.add(
+    tagElement.classList.add( 
       "rounded-full",
       "px-3",
       "py-1",
