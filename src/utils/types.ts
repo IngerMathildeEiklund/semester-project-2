@@ -109,12 +109,26 @@ export type BidAmount = {
   amount: number;
 }
 
-type BiddedOnListing = Omit<Listing, 'seller' | 'bids'>;
+type ListingWithoutSellerAndBids = Omit<Listing, 'seller' | 'bids'>;
 
 
 export type BidResponse = {
-  data: BiddedOnListing
+  data: ListingWithoutSellerAndBids
 }
+
+export type CreateListing = {
+  title: string,
+  description?: string,
+  tags?: string[],
+  media?: Media[],
+  endsAt: string,
+}
+
+export type CreateListingResponse = {
+  data: ListingWithoutSellerAndBids,
+  meta: object,
+}
+
 
 
 
