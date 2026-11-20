@@ -35,8 +35,12 @@ export async function fetchAllListings({q, tag, active, page = 1, limit = 30, in
 
     
     const params = new URLSearchParams({
+        _seller: 'true',
+        _bids: 'true',
         page: String(page),
         limit: String(limit),
+        sort: 'title', 
+        sortOrder: 'asc',
     });
 
     if (q) params.set('q', q);

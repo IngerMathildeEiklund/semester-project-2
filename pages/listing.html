@@ -17,7 +17,7 @@
       <section id="bids-container" class="p-2" aria-labelledby="bids-heading">
         
         <h2 id="bids-heading" class="text-2xl mb-4"> Bids </h2> 
-        <div tabindex="0" class="overflow-x-auto"> 
+        <div tabindex="0" class="overflow-x-auto" role="region" aria-label="Bids table"> 
         <table class="w-full border-collapse p-4">
           <caption class="sr-only"> Bids on this listing </caption>
           <thead class="border-2-blue-600">
@@ -30,11 +30,12 @@
           <tbody id="bids-body" class="border-2-blue-600"></tbody>
         </table>
       </div>
-      <p id="bids-live-region" aria-live="polite" class="text-sm sr-only"></p>
       <form id="add-bid-form" class="mt-4">
         <label for="add-bid-input"> Bid amount </label>
+         <p id="add-bid-hint" class="text-sm"> Enter an amount in dollars, e.g 10</p>
+         <p id="add-bid-error" class="text-sm text-red-800"></p>
         <div class="flex flex-row"> 
-        <input id="add-bid-input" type="number" name="bidAmount" class="border-2 border-blue-500 w-fit"> 
+        <input id="add-bid-input" min="1" step="1" aria-describedby="add-bid-hint" type="number" name="bidAmount" class="border-2 border-blue-500 w-fit"> 
         <button id="add-bid-btn" class="btn bg-blue-600"> Place a bid 
         </button>
       </div>
