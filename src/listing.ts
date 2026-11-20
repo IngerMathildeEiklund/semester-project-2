@@ -47,4 +47,14 @@ async function getOneListing(): Promise<void> {
   renderOneListing(response, oneListingContainer);
 }
 
+export async function reRenderOneListing(): Promise<void> {
+  if (!oneListingContainer) return;
+  oneListingContainer.innerHTML = '';
+  const id = getIdByParams();
+  if (!id) return;
+  const response = await fetchOneListing(id);
+  renderOneListing(response, oneListingContainer);
+
+}
+
 getOneListing();

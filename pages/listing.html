@@ -15,26 +15,33 @@
         
       </section>
       <section id="bids-container" class="p-2" aria-labelledby="bids-heading">
+        
         <h2 id="bids-heading" class="text-2xl mb-4"> Bids </h2> 
-        <div> 
+        <div tabindex="0" class="overflow-x-auto"> 
         <table class="w-full border-collapse p-4">
           <caption class="sr-only"> Bids on this listing </caption>
           <thead class="border-2-blue-600">
             <tr>
               <th scope="col" class="text-start border-b-2 border-gray-300 pb-2 mb-4"> Bidder </th>
-              <th scope="col" class="text-start border-b-2 border-gray-300 pb-2"> Amount </th>
+              <th scope="col" class="text-start border-b-2 border-gray-300 pb-2"> Amount ($) </th>
               <th scope="col" class="text-start border-b-2 border-gray-300 pb-2"> Added </th>
             </tr>
           </thead>
           <tbody id="bids-body" class="border-2-blue-600"></tbody>
         </table>
       </div>
-      <form>
-        <input type="text" name="bid-amount" class="border-2 border-blue-500 w-full"> 
-        <button class="mt-4 p-2 w-full items-center justify-center align-center bg-blue-600"> Place a bid </button>
+      <p id="bids-live-region" aria-live="polite" class="text-sm sr-only"></p>
+      <form id="add-bid-form" class="mt-4">
+        <label for="add-bid-input"> Bid amount </label>
+        <div class="flex flex-row"> 
+        <input id="add-bid-input" type="number" name="bidAmount" class="border-2 border-blue-500 w-fit"> 
+        <button id="add-bid-btn" class="btn bg-blue-600"> Place a bid 
+        </button>
+      </div>
       </form>
       </section>
     </main>
     <script type="module" src="/src/listing.ts"></script>
+    <script type="module" src="/src/components/addBid.ts"></script>
   </body>
 </html>

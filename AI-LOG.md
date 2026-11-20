@@ -115,4 +115,9 @@ Prompt: I've started working on pagination but I also need filtering and searchi
 Changes made: I was not on the right track, I started with creating two separate functions, one for searching and one for filtering. The correct process is to add all of that into the function that fetches the posts. Changed my fetchAllListings function to take in all the parameters (query, tag, active, page, limit, including seller and including bids) so that it can be used for both searching and filtering by tags/active or not active. Added the functions updateTags(), updatePagination() and a debouncer on searchbar and tag search. I did not have the right logic on the 3 pagination buttons between previous and next so that was also added. 
 
 
+18.11.2026 10:02
+
+Prompt: What is my pagination missing with my pagination? 
+Changes made: Added some aria labels, aria-describedby and a live region to announce changes.
+
 

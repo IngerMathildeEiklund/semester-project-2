@@ -104,3 +104,17 @@ export type ListingQuery = {
   includeSeller?: boolean;
   includeBids?: boolean;
 }
+
+export type BidAmount = {
+  amount: number;
+}
+
+type BiddedOnListing = Omit<Listing, 'seller' | 'bids'>;
+
+
+export type BidResponse = {
+  data: BiddedOnListing
+}
+
+
+

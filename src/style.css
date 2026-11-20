@@ -19,6 +19,9 @@
   .input {
     @apply rounded-2xl border-2 border-red-200 p-2;
   }
+  .skip-to-main-content-link {
+    @apply left-1/2 absolute 
+  }
 }
 
 #toast-container {

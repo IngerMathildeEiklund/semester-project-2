@@ -56,11 +56,8 @@ export async function fetchAllListings({q, tag, active, page = 1, limit = 30, in
 
 const listingsContainer = document.getElementById('listings');  
 
-let latestRequest = 0;
-
 async function getAllListings(): Promise<boolean> {
 
-const requestId = ++latestRequest;
 try {
     const response = await fetchAllListings({
         q: state.q || undefined,
@@ -69,7 +66,7 @@ try {
         page: state.page 
         
     });
-    if (requestId !== latestRequest) return false;
+
 
     renderListings(response.data, listingsContainer);
     updateTags(response.data);
@@ -78,7 +75,6 @@ try {
     return true;
 
 }catch {
-    if (requestId !== latestRequest) return false;
     errorMSG.textContent = `Could not get listings, please try again later`;
     return false;
 }
@@ -104,6 +100,23 @@ listings.forEach((listing) => {
     item.append(createCard(listing, { detailed: false, bids: listing.bids}));
     container.append(item);
 })
+}
+
+function resetSearch(): void {
+    clearTimeout(searchTimer);
+    searchBar.value = '';
+    state.q = '';
+    searchBar.disabled = true;
+}
+
+function resetTagsAndFilter(): void {
+    clearTimeout(tagTimer);
+    tagInput.value = '';
+    statusSelect.value = '';
+    state.tag = '';
+    state.active = undefined;
+    tagInput.disabled = false;
+    statusSelect.disabled = false;
 }
 
 function updateTags(listings: Listing[]): void {
@@ -163,7 +176,16 @@ if (searchBar) {
 searchBar?.addEventListener('input', () => {
     clearTimeout(searchTimer);
     searchTimer = window.setTimeout(() => {
-        state.q = searchBar.value.trim();
+        const q = searchBar.value.trim();
+        if (q) {
+            resetTagsAndFilter();
+            tagInput.disabled = true;
+            statusSelect.disabled = true;
+        }else {
+            tagInput.disabled = false;
+            statusSelect.disabled = false;
+        }
+        state.q = q;
         applyFilter();
     }, 300);
 });
@@ -173,7 +195,14 @@ if (tagInput) {
     tagInput.addEventListener('input', () => {
     clearTimeout(tagTimer);
     tagTimer = window.setTimeout(() => {
-        state.tag = tagInput.value.trim();
+        const tag = tagInput.value.trim();
+       if (tag) {
+        resetSearch();
+        searchBar.disabled = true;
+       }else{
+        searchBar.disabled = false;
+       }
+       state.tag = tag;
         applyFilter();
     }, 300);
 })
@@ -181,7 +210,14 @@ if (tagInput) {
 
 if (statusSelect) {
     statusSelect.addEventListener('change', () => {
-    state.active = statusSelect.value === '' ? undefined : statusSelect.value === 'true';
+        const value = statusSelect.value;
+        if (value !== '') {
+            resetSearch();
+            searchBar.disabled = true;
+        }else if (!tagInput.value.trim()){
+            searchBar.disabled = false;
+        }
+    state.active = value === '' ? undefined : value === 'true';
     applyFilter();
 })
 

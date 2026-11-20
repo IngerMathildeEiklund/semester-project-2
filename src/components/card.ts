@@ -91,15 +91,16 @@ export function createBidList(bids: Bid[], list: HTMLTableSectionElement): void 
         row.classList.add('border-b', 'border-gray-300', 'mb-8');
         const bidder = document.createElement('td');
         bidder.classList.add('py-2');
-        
-        const time = document.createElement('td');
+
+        const timeCell = document.createElement('td');
+        const time = document.createElement('time');
         time.textContent = `${transformDate(bid.created)}`;
         bidder.textContent = bid.bidder.name;
         const amount = document.createElement('td');
         amount.classList.add('py-2');
         amount.textContent = formatCurrency(bid.amount);
-
-        row.append(bidder, amount, time);
+        timeCell.append(time);
+        row.append(bidder, amount, timeCell);
         return row;
   });
 
