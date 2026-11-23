@@ -79,8 +79,10 @@ try {
     return true;
 
 }catch {
-    errorMSG.textContent = `Could not get listings, please try again later`;
-    return false;
+if (errorMSG) {
+        errorMSG.textContent = `Could not get listings, please try again later`;
+}
+    return false; 
 }
 }
 
