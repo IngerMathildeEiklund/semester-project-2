@@ -16,6 +16,12 @@
   .btn:disabled {
     @apply cursor-not-allowed;
   }
+  .btn-secondary {
+    @apply cursor-pointer 
+  }
+  .btn-secondary:hover {
+    @apply underline underline-offset-1 
+  }
   .input {
     @apply rounded-2xl border-2 border-red-200 p-2;
   }

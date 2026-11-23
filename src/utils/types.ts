@@ -129,6 +129,11 @@ export type CreateListingResponse = {
   meta: object,
 }
 
-
-
+export interface CreateNewListingFormElements extends HTMLFormControlsCollection {
+title: HTMLInputElement;
+description: HTMLInputElement;
+tags: HTMLInputElement;
+media: HTMLInputElement;
+endsAt: HTMLInputElement;
+}
 

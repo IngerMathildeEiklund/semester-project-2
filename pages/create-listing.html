@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a new listing</title>
+        <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2 focus:underline" href="#main"> Skip to content</a>
+<main id="main" tabindex="-1" class="container mx-auto flex flex-col p-2">
+    <h1> Create a new listing </h1>
+    <div id="successful-listing"  class="hidden p-4 bg-green-300 border rounded-2xl border-b-green-600 items-center justify-center" aria-live="polite" role="status">
+        <p class="text-green-900"> Listing successfully created </p>
+        <a href="" class="text-green-900"> Click here to view the newly created listing </a>
+    </div>
+    <form id="create-listing-form" class="flex flex-col">
+
+        <label for="listing-title"> Title </label>
+        <input class="input" id="listing-title" name="title" type="text" required>
+        <p id="title-error" class="text-red-800 text-sm"></p>
+
+        <label for="listing-description"> Description </label>
+        <input class="input" id="listing-description" name="description" maxlength="" type="text">
+
+        <label for="listing-tags"> Tags (separate with spaces) </label>
+        <input class="input" id="listing-tags" name="tags" type="text">
+        
+        <div id="images-container" class="flex flex-col"></div>
+        <button class="btn" id="add-image-btn" type="button">Add image</button>
+
+        <label for="listing-endtime"> Select date and time the listing ends </label>
+        <input class="input" type="datetime-local" name="endsAt" class="border-2" id="listing-endtime" name="listing-endtime" value="">
+        <p id="endtime-error" class="text-red-800 text-sm"></p>
+
+        <div class="flex flex-row gap-4 items-center justify-center mt-8"> 
+    <button id="return-to-homepage-btn" class="btn-secondary"> Return to homepage </button>
+        <button id="create-listing-btn" class="btn"> Create listing </button>
+    </div>
+    </form>
+</main>
+<script type="module" src="/src/createListing.ts"></script>
+</body>
+</html>
