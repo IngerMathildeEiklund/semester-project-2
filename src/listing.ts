@@ -4,6 +4,7 @@ import { ALL_LISTINGS_URL } from "./index";
 import { createCard } from "./components/card";
 import { getIdByParams } from "./utils/helpers";
 
+
 export async function fetchOneListing(
   listingId: string,
 ): Promise<Listing | null> {

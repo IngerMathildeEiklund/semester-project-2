@@ -18,13 +18,13 @@
     <form id="create-listing-form" class="flex flex-col" novalidate>
 
         <label for="listing-title"> Title (required) </label>
-        <p id="title-hint" class="text-sm">Add a descriptive title </p>
-        <input class="input" id="listing-title" aria-describedby="title-error title-hint" name="title" type="text" maxlength="160">
+        <p id="title-hint" class="text-sm">Add a descriptive title up to 160 characters </p>
+        <input class="input" id="listing-title" aria-describedby="title-error title-hint" name="title" type="text" maxlength="160" required>
         <p id="title-error" class="text-red-800 text-sm" aria-live="polite"></p>
 
         <label for="listing-description"> Description </label>
         <p id="description-hint" class="text-sm"> Add a description about what you're selling </p>
-        <input class="input" id="listing-description" aria-describedby="description-hint" name="description" type="text">
+        <textarea class="input" id="listing-description" aria-describedby="description-hint" name="description" type="text"></textarea>
 
         <label for="listing-tags">Tags</label>
         <p id="tags-hint" class="text-sm">Add tags separated with commas, eg "train, collectible" </p>
@@ -35,7 +35,7 @@
 
         <label for="listing-endtime"> Expiration (required) </label>
         <p id="endtime-hint" class="text-sm"> Select date and time the listing ends</p>
-        <input class="input" type="datetime-local" name="endsAt" id="listing-endtime" aria-describedby="endtime-error endtime-hint" value="">
+        <input class="input" type="datetime-local" name="endsAt" id="listing-endtime" required aria-describedby="endtime-error endtime-hint" value="">
         <p id="endtime-error" class="text-red-800 text-sm" aria-live="polite"></p>
 
         <div class="flex flex-row gap-4 items-center justify-center mt-8"> 

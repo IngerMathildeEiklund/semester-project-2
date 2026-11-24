@@ -121,3 +121,9 @@ Prompt: What is my pagination missing with my pagination?
 Changes made: Added some aria labels, aria-describedby and a live region to announce changes.
 
 
+24.11.2026 08:54
+
+Prompt: In my create listing form and function, how can I handle several images being submitted?
+
+Changes made: Added a function called `collectListingMedia()` that when clicking the 'Add Image' button summons two fields, one url and one alt text. Clicking the button again summons two more fields so the user can submit as many images as they want. 
+

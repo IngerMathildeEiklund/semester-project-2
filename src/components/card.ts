@@ -1,5 +1,7 @@
 import type { Listing, Bid, SellerProfile } from "../utils/types";
-import { transformDate } from "../utils/helpers";
+import { getIdByParams, getLoggedInUser, transformDate } from "../utils/helpers";
+import {  editListingFormPopUp } from "./updateListingModal";
+import { buildDeleteListingModal } from "./deleteListing";
 
 export const NO_IMAGE = "../src/assets/io-images-photo-1103595_640.png";
 const CURRENCY = '$';
@@ -108,6 +110,7 @@ export function createBidList(bids: Bid[], list: HTMLTableSectionElement): void 
 }
 
 export function createSellerInfo(seller: SellerProfile): HTMLElement {
+
   const sellerWrapper = document.createElement('div');
   sellerWrapper.classList.add('flex', 'flex-row', 'items-center');
 
@@ -115,10 +118,56 @@ export function createSellerInfo(seller: SellerProfile): HTMLElement {
   sellerAvatar.classList.add('w-10', 'h-10', 'rounded-full', 'object-cover');
   sellerAvatar.src = seller.avatar?.url ?? NO_IMAGE;
   sellerAvatar.alt = '';
-
   const sellerName = document.createElement('p');
   sellerName.textContent = seller.name;
-  sellerWrapper.append(sellerAvatar, sellerName);
+  const currentUser = getLoggedInUser();
+  console.log(currentUser);
+
+  if (currentUser && currentUser.name === seller.name) {
+    const editBTN = document.createElement('button');
+    editBTN.id = `edit-listing-btn`;
+    const deleteBTN = document.createElement('button');  
+    deleteBTN.id = `delete-listing-btn`;
+    const buttonsWrapper = document.createElement('div');
+    buttonsWrapper.append(editBTN, deleteBTN);
+
+    editBTN.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pencil">
+	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+	<path d="M13.5 6.5l4 4" />
+</svg> `;
+
+deleteBTN.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	<path d="M4 7l16 0" />
+	<path d="M10 11l0 6" />
+	<path d="M14 11l0 6" />
+	<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+	<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+</svg>`;
+const listingId = getIdByParams();
+if (!listingId) {
+  throw new Error('Could not find listing');
+}
+
+editBTN.addEventListener('click', () => {
+  editListingFormPopUp();
+});
+
+deleteBTN.addEventListener('click', () => {
+  buildDeleteListingModal(listingId);
+
+})
+
+buttonsWrapper.classList.add('flex', 'flex-row', 'gap-4', 'justify-around');
+const sellerAvatarSellerNameWrapper = document.createElement('div');
+sellerAvatarSellerNameWrapper.classList.add('flex', 'flex-row', 'items-center', 'gap-4')
+sellerWrapper.classList.add('flex', 'justify-between');
+sellerAvatarSellerNameWrapper.append(sellerAvatar, sellerName)
+sellerWrapper.append(sellerAvatarSellerNameWrapper, buttonsWrapper);
+  }else{
+    sellerWrapper.append(sellerAvatar, sellerName);
+  }
   return sellerWrapper;
 }
 
@@ -147,6 +196,13 @@ const now = new Date();
     cardImage.onerror = null;
     cardImage.src = NO_IMAGE;
   };
+    const currentUser = getLoggedInUser();
+  console.log(currentUser);
+  console.log(listing.seller)
+  if (listing?.seller?.name === currentUser?.name){
+    console.log('correct');
+  }
+
 
     card.append(detailed ? createImageGallery(listing.media, listing.title): cardImage);
 
@@ -155,13 +211,8 @@ const now = new Date();
   title.id = `listing-title-${listing.id}`;
   title.classList.add("line-clamp-2", "break-words");
 
-  const titleLink = document.createElement('a');
-  titleLink.href = `/pages/listing.html?id=${listing.id}`;
-  
-  titleLink.textContent = listing.title;
-  titleLink.classList.add('after:absolute', 'after:inset-0');
-  
-  title.append(titleLink);
+
+
   const desc = document.createElement("p");
   desc.classList.add('line-clamp-1', 'break-words')
   
@@ -188,12 +239,13 @@ const now = new Date();
 </svg> <span> Ends <time datetime="${listing.endsAt}">${transformDate(listing.endsAt)} </time> </span>`;
 
 const bidEndsAtWrapper = document.createElement("div");
-bidEndsAtWrapper.classList.add("justify-between", "mt-auto","flex", "flex-row", "gap-2" );  
+bidEndsAtWrapper.classList.add("justify-between", "mt-auto","flex", "flex-row", "gap-2");
 bidEndsAtWrapper.append(bids, endsAt);
 card.append(title, desc, price, bidEndsAtWrapper);
 
-  
     if (detailed) {
+      title.textContent = listing.title;
+    desc.classList.remove("break-words", 'line-clamp-1');
     const tagContainer = document.createElement("div");
     tagContainer.classList.add("flex", "flex-row", "gap-2");
       
@@ -244,6 +296,12 @@ card.append(title, desc, price, bidEndsAtWrapper);
     if (showSeller && listing.seller) {
       card.prepend(createSellerInfo(listing.seller));
     }
+  }else{
+  const titleLink = document.createElement('a');
+  titleLink.href = `/pages/listing.html?id=${listing.id}`;
+  titleLink.textContent = listing.title;
+  titleLink.classList.add('after:absolute', 'after:inset-0');
+  title.append(titleLink);
   }
   return card;
 }

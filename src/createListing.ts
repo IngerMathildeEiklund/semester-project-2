@@ -22,6 +22,7 @@ const successDiv = document.getElementById('successful-listing') as HTMLDivEleme
 const successLink = successDiv.querySelector('a') as HTMLAnchorElement;
 const titleErrorP = document.getElementById('title-error') as HTMLParagraphElement;
 const endsAtErrorP = document.getElementById('endtime-error') as HTMLParagraphElement;
+const submitFormBTN = document.getElementById('create-listing-btn') as HTMLButtonElement;
 
 
 let nextImageId = 0;
@@ -102,8 +103,11 @@ createListingForm.addEventListener('submit', async (event) => {
     titleErrorP.textContent = '';
     endsAtErrorP.textContent = '';
    
+    submitFormBTN.disabled = true;
+    createListingForm.setAttribute('aria-busy', 'true');
     try {
         const response = await createNewListing(formData.title,formData.endsAt, formData.description, formData.tags, formData.media);
+        submitFormBTN.textContent = 'Creating listing...'
         successDiv.classList.remove('hidden');
         createListingForm.reset();
         imagesContainer.replaceChildren();
@@ -111,12 +115,9 @@ createListingForm.addEventListener('submit', async (event) => {
         successDiv.focus();
     }catch(error){
         toastNotification(getErrorMessage(error), 'error');
+    }finally{
+        submitFormBTN.disabled = false;
+        submitFormBTN.textContent = 'Create listing';
+        createListingForm.removeAttribute('aria-busy');
     }
 });
-
-
-
-
-
-
-

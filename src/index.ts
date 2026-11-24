@@ -2,10 +2,17 @@
 import { get } from "./api/apiClient";
 import { createCard } from "./components/card";
 import type { ListingQuery, ListingMeta } from "./utils/types";
+import { storage } from "./storage/storage";
 
 import type{ Listing, ListingResponse } from "./utils/types";
+import { toastNotification } from "./messages/toastnotifications";
 
 export const ALL_LISTINGS_URL = "/auction/listings";
+
+if (storage.load('listingDeleted')) {
+    toastNotification('Listing successfully deleted', 'success');
+    storage.remove('listingDeleted');
+}
 
 const prevBTN = document.getElementById('prev-btn') as HTMLButtonElement;
 const nextBTN = document.getElementById('next-btn') as HTMLButtonElement;
@@ -28,7 +35,6 @@ const state = {
 }
 
 const knownTags = new Set<string>();
-
 
 
 export async function fetchAllListings({q, tag, active, page = 1, limit = 30, includeSeller = true, includeBids = true,}: ListingQuery = {}): Promise<ListingResponse> {
@@ -70,7 +76,6 @@ try {
         page: state.page 
         
     });
-
 
     renderListings(response.data, listingsContainer);
     updateTags(response.data);

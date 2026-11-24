@@ -131,9 +131,28 @@ export type CreateListingResponse = {
 
 export interface CreateNewListingFormElements extends HTMLFormControlsCollection {
 title: HTMLInputElement;
-description: HTMLInputElement;
+description: HTMLTextAreaElement;
 tags: HTMLInputElement;
 media: HTMLInputElement;
 endsAt: HTMLInputElement;
 }
+
+export interface UpdateListingFormElements extends HTMLFormControlsCollection {
+  title: HTMLInputElement;
+  description: HTMLTextAreaElement;
+  tags: HTMLInputElement;
+  media: {
+    imageUrl: HTMLInputElement;
+    imageAlt: HTMLInputElement;
+  } [] | null;
+}
+
+export type UpdateListing = {
+  title: string,
+  description: string,
+  tags: string[],
+  media: Media | null,
+}
+
+
 
