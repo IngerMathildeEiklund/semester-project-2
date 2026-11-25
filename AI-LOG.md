@@ -127,3 +127,9 @@ Prompt: In my create listing form and function, how can I handle several images 
 
 Changes made: Added a function called `collectListingMedia()` that when clicking the 'Add Image' button summons two fields, one url and one alt text. Clicking the button again summons two more fields so the user can submit as many images as they want. 
 
+25.11.2026 13:15
+
+Prompt: In my function to update an existing listing, I don't know how to handle if there are existing images on a listing, how can I solve this?
+
+Changes made: Made the image function into a shared function that both createListing and updateListing use.
+
