@@ -2,6 +2,8 @@ import type { Listing, Bid, SellerProfile } from "../utils/types";
 import { getIdByParams, getLoggedInUser, transformDate } from "../utils/helpers";
 import {  editListingFormPopUp } from "./updateListingModal";
 import { buildDeleteListingModal } from "./deleteListing";
+import { toastNotification } from "../messages/toastnotifications";
+import { getErrorMessage } from "../error/apiError";
 
 export const NO_IMAGE = "../src/assets/io-images-photo-1103595_640.png";
 const CURRENCY = '$';
@@ -118,6 +120,13 @@ export function createSellerInfo(seller: SellerProfile): HTMLElement {
   sellerAvatar.classList.add('w-10', 'h-10', 'rounded-full', 'object-cover');
   sellerAvatar.src = seller.avatar?.url ?? NO_IMAGE;
   sellerAvatar.alt = '';
+  sellerWrapper.addEventListener('click', async () => {
+    try {
+      window.location.href = `profile.html?name=${encodeURIComponent(seller.name)}`
+    }catch(error){
+      toastNotification(getErrorMessage(error), 'error');
+    }
+  })
   const sellerName = document.createElement('p');
   sellerName.textContent = seller.name;
   const currentUser = getLoggedInUser();

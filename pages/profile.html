@@ -7,8 +7,23 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-        <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2 focus:underline" href="#main"> Skip to content</a>
-<main id="main" tabindex="-1" class="container mx-auto flex flex-col p-2">
+    <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2 focus:underline" href="#main"> Skip to content</a>
+    <main id="main" tabindex="-1" class="container mx-auto flex flex-col p-2">
+        <div id="toast-container" role="status" aria-live="polite"></div>
+        <h1> My profile </h1>
+        <section id="profile-container">
+
+          <button id="edit-profile-btn" class="btn">Edit profile</button>
+          <button id="logout-btn">Logout</button>
+        </section>
+        
+        <section id="bid-on-listings-container">
+          <h2> Listings you have bid on</h2>
+        </section>
+        
+        <section id="own-listings-container">
+          <h3> Your own listings </h3>
+        </section>
     </main>
     <script type="module" src="/src/profile.ts"></script>
   </body>

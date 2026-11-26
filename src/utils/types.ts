@@ -150,5 +150,21 @@ export type UpdateListing = {
   media?: Media[],
 }
 
+export type OneProfile = {
+  name: string,
+  email: string,
+  bio?: string,
+  avatar: Media,
+  banner: Media,
+  credits: number,
+  _count?: {
+    listings: number,
+    wins: number
+  }
+}
 
+export type OneProfileResponse = {
+data: OneProfile;
+meta: object;
+}
 

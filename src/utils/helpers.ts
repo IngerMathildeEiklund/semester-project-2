@@ -9,6 +9,13 @@ export function getIdByParams(): string | undefined {
   return id;
 }
 
+export function getNameByParams(): string | undefined {
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get('name');
+  if (!name) return;
+  return name;
+}
+
 export function transformDate(date: string): string {
   const d = new Date(date);
   return d.toLocaleDateString("en-GB", {

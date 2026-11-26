@@ -127,8 +127,8 @@ function buildEditListingForm(listing: Listing) {
         <p id="title-error" class="text-red-800 text-sm" aria-live="polite"></p>
 
         <label for="listing-description"> Description </label>
-        <p id="description-hint" class="text-sm"> Add a description about what you're selling </p>
-        <textarea class="input" id="listing-description" aria-describedby="description-hint" name="description">${escapeHTML(listing.description ?? "")}</textarea>
+        <p id="description-hint" class="text-sm"> Add a description about what you're selling up to 260 characters </p>
+        <textarea class="input" id="listing-description" maxlength="260" aria-describedby="description-hint" name="description">${escapeHTML(listing.description ?? "")}</textarea>
 
         <label for="listing-tags">Tags</label>
         <p id="tags-hint" class="text-sm">Add tags separated with commas, eg "train, collectible" </p>
