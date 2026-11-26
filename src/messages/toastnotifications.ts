@@ -19,7 +19,7 @@ export function toastNotification(message: string, type: MessageType): void {
 
   const timeoutID = setTimeout(() => {
     toastElement.remove();
-  }, 10000);
+  }, 5000);
 
   toastElement.addEventListener("click", () => {
     clearTimeout(timeoutID);

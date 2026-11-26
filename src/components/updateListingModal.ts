@@ -29,6 +29,15 @@ export async function editListing(
   return response;
 }
 
+function escapeHTML(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 export async function editListingFormPopUp() {
 
     const listingId = getIdByParams();
@@ -59,6 +68,7 @@ export async function editListingFormPopUp() {
 const cancelBTN = modal.querySelector('#cancel-btn') as HTMLButtonElement;
 const addImageBTN = modal.querySelector('#add-image-btn') as HTMLButtonElement;
 const imagesContainer = modal.querySelector('#images-container') as HTMLDivElement;
+const submitBTN = modal.querySelector('#save-changes-btn') as HTMLButtonElement;
 
   setupImageFields(addImageBTN, imagesContainer, listing.media)
 
@@ -70,20 +80,32 @@ const imagesContainer = modal.querySelector('#images-container') as HTMLDivEleme
     const updatedFormData: UpdateListing = {
         title: elements.title.value.trim(),
         description: elements.description.value.trim(),
-        tags: elements.tags?.value.split(', ').map((tag) => tag.trim()).filter((tag) => tag.length > 0),
+        tags: elements.tags?.value.split(",").map((tag) => tag.trim()).filter((tag) => tag.length > 0),
         media: collectListingMedia(imagesContainer),
     }
     if (!updatedFormData.title) {
+      const titleInput = elements.title;
+      const titleError = modal.querySelector<HTMLParagraphElement>('#title-error')!;
+      titleError.textContent = `Listing requires a title`;
+      titleInput.setAttribute('aria-invalid', 'true');
+      titleInput.setAttribute('aria-describedby', 'title-error title-hint');
+      titleInput.focus();
         toastNotification('Listing requires a title', 'error');
         return;
     }
+    submitBTN.disabled = true;
+    submitBTN.setAttribute('aria-busy', 'true');
     try {
         await editListing(listing.id, updatedFormData);
         reRenderOneListing();
         toastNotification('Listing successfully updated', 'success');
+        
         modal.close();
     }catch(error) {
         toastNotification(getErrorMessage(error), 'error');
+    }finally{
+      submitBTN.disabled = false;
+      submitBTN.removeAttribute('aria-busy');
     }
   });
 
@@ -101,18 +123,19 @@ function buildEditListingForm(listing: Listing) {
         
         <label for="listing-title"> Title</label>
         <p id="title-hint" class="text-sm">Add a descriptive title up to 160 characters </p>
-        <input class="input" id="listing-title" aria-describedby="title-error title-hint" name="title" type="text" value="${listing.title}" maxlength="160" required>
+        <input class="input" id="listing-title" aria-describedby="title-error title-hint" name="title" type="text" value="${escapeHTML(listing.title)}" maxlength="160" required>
         <p id="title-error" class="text-red-800 text-sm" aria-live="polite"></p>
 
         <label for="listing-description"> Description </label>
         <p id="description-hint" class="text-sm"> Add a description about what you're selling </p>
-        <textarea class="input" id="listing-description" aria-describedby="description-hint" name="description" type="text"> ${listing.description ?? ""} </textarea>
+        <textarea class="input" id="listing-description" aria-describedby="description-hint" name="description">${escapeHTML(listing.description ?? "")}</textarea>
 
         <label for="listing-tags">Tags</label>
         <p id="tags-hint" class="text-sm">Add tags separated with commas, eg "train, collectible" </p>
-        <input class="input" id="listing-tags" aria-describedby="tags-hint" name="tags" type="text" value="${listing.tags?.join(",") ?? ""}" maxlength="24">
+        <input class="input" id="listing-tags" aria-describedby="tags-hint" name="tags" type="text" value="${escapeHTML(listing.tags?.join(", ") ?? "")}" maxlength="24">
         
         <div id="images-container" class="flex flex-col"></div>
+        <p id="image-status" class="sr-only" role="status"></p>
         <button class="btn" id="add-image-btn" type="button">Add image</button>
 
         <div class="flex flex-row gap-4 items-center justify-center mt-8">

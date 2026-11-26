@@ -133,3 +133,10 @@ Prompt: In my function to update an existing listing, I don't know how to handle
 
 Changes made: Made the image function into a shared function that both createListing and updateListing use.
 
+26.11.2026 10:34
+
+Prompt: What is my update listing missing in terms of accessibility? 
+
+Changes made: Since my edit listing form is innerHTML, added a helper function `escapeHTML` to avoid the form breaking or users being able to write HTML in the form. Also refactored the imageFields.ts so a screen reader will be notificed on changes regarding adding and removing images.
+
+
