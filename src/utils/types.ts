@@ -103,6 +103,28 @@ export type ListingQuery = {
   limit?: number;
   includeSeller?: boolean;
   includeBids?: boolean;
+  includeListing?: boolean,
+}
+/* export type BidWithListing = Bid & { listing?: Listing};
+
+export type BidOnResponse = {
+  data: BidWithListing[],
+  meta: ListingMeta
+} */
+
+export type ListingQueryOneUser = {
+  name?: string,
+  page?: number;
+  limit?: number;
+  includeSeller?: boolean;
+  includeBids?: boolean;
+}
+
+export type ListSection = {
+  container: HTMLUListElement;
+  prev: HTMLButtonElement;
+  next: HTMLButtonElement;
+  fetchPage: (page: number) => Promise<ListingResponse>;
 }
 
 export type BidAmount = {

@@ -204,8 +204,6 @@ const now = new Date();
     cardImage.src = NO_IMAGE;
   };
     const currentUser = getLoggedInUser();
-  console.log(currentUser);
-  console.log(listing.seller)
   if (listing?.seller?.name === currentUser?.name){
     console.log('correct');
   }
