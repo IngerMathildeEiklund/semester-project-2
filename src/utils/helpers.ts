@@ -25,6 +25,7 @@ export function transformDate(date: string): string {
     minute: "2-digit",
     hour12: false,
     timeZone: "Europe/Oslo",
+    year: "numeric"
   });
 }
 

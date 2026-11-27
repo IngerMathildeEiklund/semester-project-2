@@ -8,7 +8,7 @@ import { getErrorMessage } from "../error/apiError";
 export const NO_IMAGE = "../src/assets/io-images-photo-1103595_640.png";
 const CURRENCY = '$';
 
-function formatCurrency(amount: number | string): string {
+export function formatCurrency(amount: number | string): string {
   return `${CURRENCY}${amount}`;
 }
 type CardOptions = {
@@ -121,11 +121,7 @@ export function createSellerInfo(seller: SellerProfile): HTMLElement {
   sellerAvatar.src = seller.avatar?.url ?? NO_IMAGE;
   sellerAvatar.alt = '';
   sellerWrapper.addEventListener('click', async () => {
-    try {
       window.location.href = `profile.html?name=${encodeURIComponent(seller.name)}`
-    }catch(error){
-      toastNotification(getErrorMessage(error), 'error');
-    }
   })
   const sellerName = document.createElement('p');
   sellerName.textContent = seller.name;
@@ -159,11 +155,13 @@ if (!listingId) {
   throw new Error('Could not find listing');
 }
 
-editBTN.addEventListener('click', () => {
+editBTN.addEventListener('click', (e) => {
+  e.stopPropagation()
   editListingFormPopUp();
 });
 
-deleteBTN.addEventListener('click', () => {
+deleteBTN.addEventListener('click', (e) => {
+  e.stopPropagation();
   buildDeleteListingModal(listingId);
 
 })
