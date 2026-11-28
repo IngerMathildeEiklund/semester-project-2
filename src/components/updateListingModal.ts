@@ -29,7 +29,7 @@ export async function editListing(
   return response;
 }
 
-function escapeHTML(text: string): string {
+export function escapeHTML(text: string): string {
   return text
     .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")

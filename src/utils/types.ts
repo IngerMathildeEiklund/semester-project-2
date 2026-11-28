@@ -70,7 +70,7 @@ export type Listing = {
   created: string;
   updated: string;
   endsAt: string;
-  _count: ListingCount;
+  _count?: ListingCount;
   seller?: SellerProfile;
   bids?: Bid[];
 }
@@ -103,17 +103,16 @@ export type ListingQuery = {
   limit?: number;
   includeSeller?: boolean;
   includeBids?: boolean;
-  includeListing?: boolean,
 }
-/* export type BidWithListing = Bid & { listing?: Listing};
+export type BidWithListing = Bid & { listing?: Listing};
 
 export type BidOnResponse = {
   data: BidWithListing[],
   meta: ListingMeta
-} */
+}
 
 export type ListingQueryOneUser = {
-  name?: string,
+  name: string,
   page?: number;
   limit?: number;
   includeSeller?: boolean;
@@ -190,3 +189,21 @@ data: OneProfile;
 meta: object;
 }
 
+export type UpdateProfile = {
+  bio?: string,
+avatar?: { url: string; alt: string};
+banner?: { url: string, alt: string};
+}
+
+export type UpdateProfileResponse = {
+  data: OneProfile,
+  meta: {},
+}
+
+export interface UpdateProfileFormElements extends HTMLFormControlsCollection {
+  bio: HTMLTextAreaElement,
+  avatarUrl: HTMLInputElement,
+  avatarAlt: HTMLInputElement,
+  bannerUrl: HTMLInputElement,
+  bannerAlt: HTMLInputElement,
+}

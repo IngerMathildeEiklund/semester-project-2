@@ -140,3 +140,14 @@ Prompt: What is my update listing missing in terms of accessibility?
 Changes made: Since my edit listing form is innerHTML, added a helper function `escapeHTML` to avoid the form breaking or users being able to write HTML in the form. Also refactored the imageFields.ts so a screen reader will be notificed on changes regarding adding and removing images.
 
 
+27.11.2026 12:11
+
+Prompt: I have three different sections on the profile page where cards will be rendered. How can I use pagination here without having different pages for each section?
+
+Changes made: Added createPaginatedList which builds one reusable paginated list, and the three different fetch calls create independent lists from this function. Since it takes in parameters of a container and the two pagination buttons it can be reused, just with different elements(id's). the function fetches, builds cards, handles button state and saves the pagination info. Then the function runs with the fetch, the users name and a page. 
+
+28.11.2028 13:22
+
+Prompt: I can't get the fetch function for getting all the listings the user has bid on to work, what am I missing?
+
+Changes made: Because the function returns an array of bids the user has made, with nested listings without `_count`, using createCard won't work. The fix was to fetch again after listing id so it includes the bid data and that fetch returns listings in the ListingResponse shape with pagination meta, making it possible to use the createCard function on it.

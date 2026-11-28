@@ -203,10 +203,9 @@ const now = new Date();
     cardImage.onerror = null;
     cardImage.src = NO_IMAGE;
   };
-    const currentUser = getLoggedInUser();
+/*     const currentUser = getLoggedInUser();
   if (listing?.seller?.name === currentUser?.name){
-    console.log('correct');
-  }
+  } */
 
 
     card.append(detailed ? createImageGallery(listing.media, listing.title): cardImage);
@@ -220,12 +219,14 @@ const now = new Date();
 
   const desc = document.createElement("p");
   desc.classList.add('line-clamp-1', 'break-words')
-  
+
+  const knownBids = bidList ?? listing.bids;
   const price = document.createElement("p");
-  price.textContent = getPriceText(bidList, hasEnded);
+  price.textContent = getPriceText(knownBids, hasEnded);
   desc.textContent = listing.description ?? "";
   const bids = document.createElement("p");
-  bids.textContent = `${listing._count.bids} ${listing._count.bids === 1 ? "bid" : "bids"}`;
+  const bidCount = listing._count?.bids ?? knownBids?.length;
+  bids.textContent = bidCount === undefined ? '' : `${bidCount} ${bidCount === 1 ? 'bid' : 'bids'}`;
   
   const endsAt = document.createElement("div");
   endsAt.classList.add('flex', 'flex-row', 'gap-2', 'items-center');
